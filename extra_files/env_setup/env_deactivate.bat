@@ -1,0 +1,2 @@
+set "MALMO_XSD_PATH="
+set "MALMO_MINECRAFT_ROOT="

@@ -1,0 +1,2 @@
+set "MALMO_XSD_PATH=%CONDA_PREFIX%\MalmoSchemas"
+set "MALMO_MINECRAFT_ROOT=%CONDA_PREFIX%\Minecraft"

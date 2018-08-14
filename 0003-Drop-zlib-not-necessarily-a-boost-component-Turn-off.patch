@@ -1,0 +1,27 @@
+From 857284486efa2c4f41e775636e79ca7c29200312 Mon Sep 17 00:00:00 2001
+From: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date: Sun, 12 Aug 2018 13:20:34 -0500
+Subject: [PATCH 3/3] Drop zlib (not necessarily a boost component); Turn off
+ auto-linking (win)
+
+---
+ CMakeLists.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0240b7e..315a36e 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -110,7 +110,8 @@ endif()
+ 
+ if( WIN32 )
+   SET(Boost_USE_STATIC_LIBS ON)
+-  find_package( Boost COMPONENTS chrono date_time filesystem iostreams program_options ${BOOST_PYTHON_MODULE_NAME} regex system thread zlib REQUIRED )
++  find_package( Boost COMPONENTS chrono date_time filesystem iostreams program_options ${BOOST_PYTHON_MODULE_NAME} regex system thread REQUIRED)
++  add_definitions(-DBOOST_ALL_NO_LIB=1)  # Turn off auto-linking, creates problems when linking boost statically
+ else()
+   find_package( Boost COMPONENTS chrono date_time filesystem iostreams program_options ${BOOST_PYTHON_MODULE_NAME} regex system thread REQUIRED )
+   set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+-- 
+1.8.3.1
+

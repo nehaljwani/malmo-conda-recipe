@@ -1,0 +1,28 @@
+From 61e5cd63efcaf8814720a8e1145143ed95a6e154 Mon Sep 17 00:00:00 2001
+From: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date: Sun, 12 Aug 2018 23:07:33 -0500
+Subject: [PATCH 4/4] Set Boost_USE_STATIC_LIBS before find_package()
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 315a36e..1ec8be1 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -113,10 +113,10 @@ if( WIN32 )
+   find_package( Boost COMPONENTS chrono date_time filesystem iostreams program_options ${BOOST_PYTHON_MODULE_NAME} regex system thread REQUIRED)
+   add_definitions(-DBOOST_ALL_NO_LIB=1)  # Turn off auto-linking, creates problems when linking boost statically
+ else()
++  SET(Boost_USE_STATIC_LIBS ${STATIC_BOOST})
+   find_package( Boost COMPONENTS chrono date_time filesystem iostreams program_options ${BOOST_PYTHON_MODULE_NAME} regex system thread REQUIRED )
+   set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+   find_package( Threads REQUIRED )
+-  SET(Boost_USE_STATIC_LIBS ${STATIC_BOOST})
+ endif()
+ 
+ # suggested install paths - see readme.md
+-- 
+1.8.3.1
+

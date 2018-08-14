@@ -1,45 +1,47 @@
 package:
   name: malmo
-  version: 0.35.6.0
+  version: 0.36.0
 
 source:
   git_url: https://github.com/Microsoft/malmo.git
-  git_rev: 0.35.6
-
+  git_rev: 0.36.0
+  patches:
+    - 0001-Don-t-link-to-libpythonXY.dll-so-dylib.patch
+    - 0002-Make-BOOST_PYTHON_MODULE_NAME-configurable-on-all-pl.patch
+    - 0003-Drop-zlib-not-necessarily-a-boost-component-Turn-off.patch
+    - 0004-Set-Boost_USE_STATIC_LIBS-before-find_package.patch
 
 build:
-  number: 1
+  number: 0
+  ignore_run_exports:
+    # Gonna link it statically (symbols may still be exposed, but less risky
+    # than mixing defaults and conda-forge)
+    - boost
 
 requirements:
   build:
-    - python {{ python }}
+    - {{ compiler('cxx') }}
     - cmake
-    - boost 1.67
-    - ffmpeg
-    - openjdk 8.*
-    - mono
-    - doxygen
-    - curl
-    - toolchain # [linux and not py36] 
-    - gcc # [linux and py36] 
-    - pthread-stubs # [linux]
-    - swig # [linux]
-    - icu # [linux]
+    - swig
+  host:
+    - python
+    - setuptools
+    - boost
+    - zlib
+    - openjdk
   run:
-    - python {{ python }}
-    - boost 1.67
-    - ffmpeg
-    - openjdk 8.*
-    - mono
-    - curl
-    - toolchain # [linux and not py36] 
-    - gcc # [linux and py36] 
-    - pthread-stubs # [linux]
-    - swig # [linux]
-    - icu # [linux]
+    - python
+    - {{ pin_compatible('openjdk', max_pin='x') }}
+
+test:
+  imports:         # [unix]
+    - MalmoPython  # [unix]
+  commands:
+    - python -c "from malmo import MalmoPython"
 
 about:
-  home: https://www.microsoft.com/en-us/research/project/project-malmo/
+  home: https://www.microsoft.com/en-us/research/project/project-malmo
+  dev_url: https://github.com/Microsoft/malmo
   license: "MIT License"
   summary: "Conda package for Project Malmo, a platform for Artificial Intelligence experimentation and research built on top of Minecraft"
   author: "S.P. Mohanty"

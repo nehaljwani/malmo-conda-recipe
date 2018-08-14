@@ -1,0 +1,43 @@
+From 6b773b5f81525f275347cf7407cbdae6f97ea4a5 Mon Sep 17 00:00:00 2001
+From: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date: Sun, 12 Aug 2018 13:17:53 -0500
+Subject: [PATCH 2/3] Make BOOST_PYTHON_MODULE_NAME configurable on all
+ platforms
+
+---
+ CMakeLists.txt | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d8fb4e9..0240b7e 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -51,10 +51,9 @@ set( STATIC_BOOST        ON CACHE BOOL ${STATIC_BOOST_DESC} )
+ 
+ if( INCLUDE_PYTHON )
+   set( USE_PYTHON_VERSIONS_DESC "Specifies which version of Python to build Malmo with Python bindings" )
+-  set( MACOS_USE_PYTHON_MODULE_DESC "Specifies which Python module to build Malmo on Apple MacOS" )
+   set( USE_PYTHON_VERSIONS 3.6 CACHE STRING ${USE_PYTHON_VERSIONS_DESC} )
+-  # Boost has switched to using a 2 digit naming convention for python on MacOS.
+-  set( MACOS_USE_PYTHON_MODULE "python37" CACHE STRING ${MACOS_USE_PYTHON_MODULE_DESC} )
++  set( BOOST_PYTHON_NAME_DESC "Specifies which Boost Python module to build Malmo with" )
++  set( BOOST_PYTHON_NAME "python3" CACHE STRING ${BOOST_PYTHON_NAME_DESC} )
+ endif()
+ 
+ set( WARNINGS_AS_ERRORS OFF )
+@@ -106,11 +105,7 @@ SET(Boost_ADDITIONAL_VERSIONS "1.67" "1.67.0")
+ 
+ SET(BOOST_PYTHON_MODULE_NAME "python")
+ if ( USE_PYTHON_VERSIONS VERSION_GREATER 3 )
+-    if ( APPLE )
+-        SET( BOOST_PYTHON_MODULE_NAME ${MACOS_USE_PYTHON_MODULE} )
+-    else()
+-        SET( BOOST_PYTHON_MODULE_NAME "python3" )
+-    endif()
++  SET( BOOST_PYTHON_MODULE_NAME ${BOOST_PYTHON_NAME} )
+ endif()
+ 
+ if( WIN32 )
+-- 
+1.8.3.1
+
